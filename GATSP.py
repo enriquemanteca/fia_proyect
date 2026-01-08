@@ -29,14 +29,52 @@ def create_initial_population(pop_size, num_bits):
 
 
 
+
+
+def get_stats(fitness_values):
+    best_chromosome_idx, best_fitness, worst_fitness = 0, fitness_values[0], fitness_values[0]
+    avg_fitness = 0
+    for i in range(pop_size):
+        avg_fitness += fitness_values[i]
+        if util.is_better(fitness_values[i], best_fitness):
+            best_chromosome_idx, best_fitness = i, fitness_values[i]
+        if util.is_better(worst_fitness, fitness_values[i]):
+            worst_fitness = fitness_values[i]
+    avg_fitness = avg_fitness / pop_size
+    return [best_chromosome_idx, best_fitness, avg_fitness, worst_fitness]
+
 def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, crossover_prob, mutation_prob):
     generation = 0
+    evolution_history = []
+
     population = create_initial_population(pop_size, num_bits)
     fitness_values = [objective_func(c) for c in population]
 
+    best_chromosome_idx, best_fitness, avg_fitness, worst_fitness = get_stats(fitness_values)
+    print(">Generation %d: Worst: %.3f Average: %.3f Best: %.3f" % (generation, worst_fitness, avg_fitness, best_fitness))
+    evolution_history.append([best_fitness, avg_fitness, worst_fitness])
 
+
+
+
+
+# Values GA
 filename="D:/Ingenieria de Datos/Erasmus/Fondamenti/instanciasTSP/eil51.tsp"
 
+pop_size = 100
+tournament_size = 4
+crossover_prob = 0.9
+mutation_prob = 0.1
+elitism = True
+
+max_time = 60
+max_generations = 200
+
+
+
+
+
+# Program
 coordinates = []
 util.read_tsp_file(filename, coordinates)
 distance_matrix = []

@@ -16,3 +16,5 @@ def read_tsp_file(filename, coordinates):
         coord = [float(parts[1]), float(parts[2])]
         coordinates.append(coord)
 
+def is_better(a, b):
+    return a < b
