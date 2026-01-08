@@ -15,3 +15,4 @@ def read_tsp_file(filename, coordinates):
         parts = line.split()
         coord = [float(parts[1]), float(parts[2])]
         coordinates.append(coord)
+
