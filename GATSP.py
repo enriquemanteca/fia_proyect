@@ -60,6 +60,11 @@ def crossover(p1, p2, crossover_prob):
                 pointer_p1 += 1
     return [c1, c2]
 
+def mutation(chromosome, mutation_prob):
+    if rand() < mutation_prob:
+        point1 = randint(0, len(chromosome))
+        point2 = randint(0, len(chromosome))
+        chromosome[point1], chromosome[point2] = (chromosome[point2], chromosome[point1])
 
 def get_stats(fitness_values):
     best_chromosome_idx, best_fitness, worst_fitness = 0, fitness_values[0], fitness_values[0]
