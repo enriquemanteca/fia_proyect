@@ -68,6 +68,12 @@ def nearest_neighbor_heuristic(num_candidates):
     
     return solution
 
+def is_better(a, b):
+    if maximize == True:
+        return a > b
+    else:
+        return a < b
+
 def selection(population, fitness_values, tournament_size):
     chosen_index = randint(len(population))
     for i in randint(0, len(population), tournament_size-1):
@@ -162,6 +168,8 @@ def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, cross
 
 # Values GA
 filename="D:/Ingenieria de Datos/Erasmus/Fondamenti/instanciasTSP/eil51.tsp"
+
+maximize=False
 
 use_nearest_neighbor = True
 num_nearest_neighbors_count = 1
