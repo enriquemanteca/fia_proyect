@@ -21,11 +21,52 @@ def create_distance_matrix(coords, matrix):
 
 def create_initial_population(pop_size, num_bits):
     population = []
-    cities = []
-    for i in range(num_bits):
-        cities.append(i)
-    population = [permutation(cities) for _ in range(pop_size)]
+    if use_nearest_neighbor == False:
+        cities = []
+        for i in range(num_bits):
+            cities.append(i)
+        population = [permutation(cities) for _ in range(pop_size)]
+    else:
+        for i in range(pop_size):
+            population.append(nearest_neighbor_heuristic(num_nearest_neighbors_count))
     return population
+
+def nearest_neighbor_heuristic(num_candidates):
+    solution = []
+    cities_to_visit = []
+    for i in range(len(distance_matrix)):
+        cities_to_visit.append(i)
+    
+    chosen_city = randint(len(distance_matrix))
+    solution.append(chosen_city)
+    cities_to_visit.remove(chosen_city)
+
+    while len(solution) < len(distance_matrix):
+        candidates = []
+        counter = 0
+        while len(candidates) < num_candidates and len(candidates) < len(cities_to_visit):
+            candidates.append(cities_to_visit[counter])
+            counter += 1
+        
+        furthest_index = 0
+        for i in range(len(candidates)):
+            if distance_matrix[solution[-1]][candidates[i]] > distance_matrix[solution[-1]][candidates[furthest_index]]:
+                furthest_index = i
+        
+        while counter < len(cities_to_visit):
+            if distance_matrix[solution[-1]][cities_to_visit[counter]] < distance_matrix[solution[-1]][candidates[furthest_index]]:
+                candidates[furthest_index] = cities_to_visit[counter]
+                furthest_index = 0
+                for i in range(len(candidates)):
+                    if distance_matrix[solution[-1]][candidates[i]] > distance_matrix[solution[-1]][candidates[furthest_index]]:
+                        furthest_index = i
+            counter += 1
+        
+        chosen = randint(0, len(candidates))
+        solution.append(candidates[chosen])
+        cities_to_visit.remove(candidates[chosen])
+    
+    return solution
 
 def selection(population, fitness_values, tournament_size):
     chosen_index = randint(len(population))
@@ -89,12 +130,41 @@ def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, cross
     print(">Generation %d: Worst: %.3f Average: %.3f Best: %.3f" % (generation, worst_fitness, avg_fitness, best_fitness))
     evolution_history.append([best_fitness, avg_fitness, worst_fitness])
 
+    current_time = time.time()
 
+    while generation < max_generations and current_time - start_time < max_time:
+        generation += 1
+        selected_parents = [selection(population, fitness_values, tournament_size) for _ in range(pop_size)]
+        
+        offspring = list()
+        if elitism == True:
+            offspring.append(population[best_chromosome_idx])
+        
+        for i in range(0, pop_size, 2):
+            p1, p2 = selected_parents[i], selected_parents[i+1]
+            for child in crossover(p1, p2, crossover_prob):
+                mutation(child, mutation_prob)
+                if len(offspring) < pop_size:
+                    offspring.append(child)
+        
+        population = offspring
+        fitness_values = [objective_func(c) for c in population]
+        
+        best_chromosome_idx, best_fitness, avg_fitness, worst_fitness = get_stats(fitness_values)
+        print(">Generation %d: Worst: %.3f Average: %.3f Best: %.3f" % (generation, worst_fitness, avg_fitness, best_fitness))
+        evolution_history.append([best_fitness, avg_fitness, worst_fitness])
+        
+        current_time = time.time()
+
+    return [population[best_chromosome_idx], fitness_values[best_chromosome_idx], evolution_history]
 
 
 
 # Values GA
 filename="D:/Ingenieria de Datos/Erasmus/Fondamenti/instanciasTSP/eil51.tsp"
+
+use_nearest_neighbor = True
+num_nearest_neighbors_count = 1
 
 pop_size = 100
 tournament_size = 4
