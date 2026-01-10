@@ -27,6 +27,12 @@ def create_initial_population(pop_size, num_bits):
     population = [permutation(cities) for _ in range(pop_size)]
     return population
 
+def selection(population, fitness_values, tournament_size):
+    chosen_index = randint(len(population))
+    for i in randint(0, len(population), tournament_size-1):
+        if is_better(fitness_values[i], fitness_values[chosen_index]):
+            chosen_index = i
+    return population[chosen_index]
 
 
 
