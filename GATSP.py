@@ -34,7 +34,31 @@ def selection(population, fitness_values, tournament_size):
             chosen_index = i
     return population[chosen_index]
 
-
+def crossover(p1, p2, crossover_prob):
+    c1, c2 = p1.copy(), p2.copy()
+    if rand() < crossover_prob:
+        point_min = randint(0, len(p1))
+        point_max = randint(0, len(p1))
+        while point_min == point_max:
+            point_max = randint(0, len(p1))
+        if point_min > point_max:
+            point_min, point_max = point_max, point_min
+        
+        pointer_p1 = 0
+        pointer_p2 = 0
+        
+        for i in range(len(p1)):
+            if i < point_min or i > point_max:
+                while p2[pointer_p2] in c1[point_min:point_max+1]:
+                    pointer_p2 += 1
+                c1[i] = p2[pointer_p2]
+                pointer_p2 += 1
+                
+                while p1[pointer_p1] in c2[point_min:point_max+1]:
+                    pointer_p1 += 1
+                c2[i] = p1[pointer_p1]
+                pointer_p1 += 1
+    return [c1, c2]
 
 
 def get_stats(fitness_values):
