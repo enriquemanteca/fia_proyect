@@ -192,3 +192,12 @@ coordinates = []
 util.read_tsp_file(filename, coordinates)
 distance_matrix = []
 create_distance_matrix(coordinates, distance_matrix)
+
+start_time = time.time()
+best_solution, best_fitness_value, evolution_data = genetic_algorithm(calculate_total_distance, len(distance_matrix), max_generations, pop_size, crossover_prob, mutation_prob)
+end_time = time.time()
+
+print('Execution finished! Total execution time: %f seconds' % (end_time - start_time))
+print('Best solution and its fitness:')
+print('f(%s) = %f' % (best_solution, best_fitness_value))
+util.plot_results(evolution_data)

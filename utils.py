@@ -1,6 +1,7 @@
 from numpy.random import randint
 from numpy.random import rand
 from numpy.random import permutation
+import matplotlib.pyplot as plt
 
 def read_tsp_file(filename, coordinates):
     f = open(filename, "r")
@@ -18,3 +19,13 @@ def read_tsp_file(filename, coordinates):
 
 def is_better(a, b):
     return a < b
+
+
+
+def plot_results(evolution_history):
+    plt.plot(evolution_history)
+    plt.legend(["Best", "Average", "Worst"])
+    plt.xlabel("Generation")
+    plt.ylabel("Fitness")
+    plt.title("Evolution")
+    plt.show()
