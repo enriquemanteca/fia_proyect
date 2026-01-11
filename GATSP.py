@@ -68,16 +68,10 @@ def nearest_neighbor_heuristic(num_candidates):
     
     return solution
 
-def is_better(a, b):
-    if maximize == True:
-        return a > b
-    else:
-        return a < b
-
 def selection(population, fitness_values, tournament_size):
     chosen_index = randint(len(population))
     for i in randint(0, len(population), tournament_size-1):
-        if is_better(fitness_values[i], fitness_values[chosen_index]):
+        if util.is_better(fitness_values[i], fitness_values[chosen_index]):
             chosen_index = i
     return population[chosen_index]
 
@@ -172,16 +166,16 @@ filename="D:/Ingenieria de Datos/Erasmus/Fondamenti/instanciasTSP/eil51.tsp"
 maximize=False
 
 use_nearest_neighbor = True
-num_nearest_neighbors_count = 1
+num_nearest_neighbors_count = 5
 
 pop_size = 100
 tournament_size = 4
-crossover_prob = 0.9
-mutation_prob = 0.1
+crossover_prob = 0.8
+mutation_prob = 0.2
 elitism = True
 
-max_time = 60
-max_generations = 200
+max_time = 30
+max_generations = 200000
 
 
 
