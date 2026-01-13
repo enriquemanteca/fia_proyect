@@ -56,18 +56,15 @@ def nearest_neighbor_heuristic(num_candidates):
     
     return solution
 
-def create_initial_population(pop_size, num_bits):
-    population = []
-    if use_nearest_neighbor == False:
-        cities = []
-        for i in range(num_bits):
-            cities.append(i)
-        population = [permutation(cities) for _ in range(pop_size)]
-    else:
-        for i in range(pop_size):
-            population.append(nearest_neighbor_heuristic(num_nearest_neighbors))
-    return population
-
+def create_initial_population():
+   if use_nearest_neighbor == False:
+      ciudades=[]
+      for num in range(len(distance_matrix)):
+         ciudades.append(num)
+         solucion = permutation(ciudades)
+   else:
+      solucion = nearest_neighbor_heuristic(num_nearest_neighbors)
+   return solucion
 
 def swap_neighborhood(solution):
     neighbors = []
@@ -137,8 +134,6 @@ def multi_start_local_search(objective_func, generate_neighbors):
 
 # Values LS
 filename="instanciasTSP/eil51.tsp"
-
-maximize=False
 
 swap_range=60
 

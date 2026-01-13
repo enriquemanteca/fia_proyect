@@ -163,7 +163,6 @@ def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, cross
 # Values GA
 filename="D:/Ingenieria de Datos/Erasmus/Fondamenti/instanciasTSP/eil51.tsp"
 
-maximize=False
 
 use_nearest_neighbor = True
 num_nearest_neighbors_count = 5
