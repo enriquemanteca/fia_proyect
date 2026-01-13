@@ -161,8 +161,12 @@ def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, cross
 
 
 # Values GA
-filename="D:/Ingenieria de Datos/Erasmus/Fondamenti/instanciasTSP/eil51.tsp"
+# filename="instanciasTSP/eil51.tsp"
+import json
+with open("data/generated/berlin52_noise0.1_asym0.05.json") as f:
+    instance = json.load(f)
 
+distance_matrix = instance["distance_matrix"]
 
 use_nearest_neighbor = True
 num_nearest_neighbors_count = 5
@@ -181,10 +185,10 @@ max_generations = 200000
 
 
 # Program
-coordinates = []
-util.read_tsp_file(filename, coordinates)
-distance_matrix = []
-create_distance_matrix(coordinates, distance_matrix)
+# coordinates = []
+# util.read_tsp_file(filename, coordinates)
+# distance_matrix = []
+# create_distance_matrix(coordinates, distance_matrix)
 
 start_time = time.time()
 best_solution, best_fitness_value, evolution_data = genetic_algorithm(calculate_total_distance, len(distance_matrix), max_generations, pop_size, crossover_prob, mutation_prob)

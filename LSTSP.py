@@ -133,7 +133,7 @@ def multi_start_local_search(objective_func, generate_neighbors):
     return [best_solution, best_fitness, evolution_history]
 
 # Values LS
-filename="instanciasTSP/eil51.tsp"
+# filename="instanciasTSP/eil51.tsp"
 
 swap_range=60
 
@@ -145,10 +145,26 @@ pop_size = 100
 max_iterations = 20000
 max_time_multistart = 15
 
-coordinates = []
-util.read_tsp_file(filename, coordinates)
-distance_matrix = []
-create_distance_matrix(coordinates, distance_matrix)
+# coordinates = []
+# util.read_tsp_file(filename, coordinates)
+# distance_matrix = []
+# create_distance_matrix(coordinates, distance_matrix)
+
+# # Load instance
+import json
+with open("data/generated/berlin52_noise0.1_asym0.05.json") as f:
+    instance = json.load(f)
+
+distance_matrix = instance["distance_matrix"]
+
+# # Parameters
+# swap_range = 20
+# use_nearest_neighbor = True
+# num_nearest_neighbors = 3
+
+# max_iterations = 1000
+# max_time_multistart = 10  # seconds
+
 
 start_time = time.time()
 best_solution, best_fitness_value, evolution_data = multi_start_local_search(calculate_total_distance, swap_neighborhood)
