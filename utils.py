@@ -10,7 +10,7 @@ def read_tsp_file(filename, coordinates):
     f.readline()
     numlines = int(f.readline().split()[1])
     f.readline()
-    f.readline()
+    f.readline()    
     for i in range(numlines):
         line = f.readline()
         parts = line.split()
@@ -22,10 +22,41 @@ def is_better(a, b):
 
 
 
-def plot_results(evolution_history):
-    plt.plot(evolution_history)
-    plt.legend(["Best", "Average", "Worst"])
-    plt.xlabel("Generation")
+
+def plot_results(coordinates, route, evolution=[]):
+    x = []
+    y = []
+    for i in route:
+        x.append(coordinates[i][0])
+        y.append(coordinates[i][1])
+    
+    plt.figure(figsize=(11, 5))
+    
+    # --- Subplot 1: The Map (Route) ---
+    plt.subplot(121)
+    plt.plot(x, y, 'bo', markersize=4.0)
+    
+    a_scale = float(max(x)) / float(100)
+    
+    # Draw arrow from last point to first point (close the loop)
+    plt.arrow(x[-1], y[-1], (x[0] - x[-1]), (y[0] - y[-1]), head_width=a_scale, color='r', length_includes_head=True)
+    
+    # Draw arrows between points
+    for i in range(0, len(x) - 1):
+        plt.arrow(x[i], y[i], (x[i+1] - x[i]), (y[i+1] - y[i]), head_width=a_scale, color='r', length_includes_head=True)
+        
+    plt.xlim(0, max(x) * 1.1)
+    plt.ylim(0, max(y) * 1.1)
+    plt.xlabel("x")
+    plt.ylabel("y")
+    plt.title("Best Route Found")
+    
+    # --- Subplot 2: Evolution (Fitness) ---
+    plt.subplot(122)
+    plt.plot(evolution)
+    
+    plt.legend("Best route")
+        
     plt.ylabel("Fitness")
     plt.title("Evolution")
     plt.show()

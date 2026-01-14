@@ -11,13 +11,6 @@ def calculate_total_distance(route):
     total_distance = total_distance + distance_matrix[route[len(route)-1]][route[0]]
     return total_distance
 
-def create_distance_matrix(coords, matrix):
-    for i in range(len(coords)):
-        row = []
-        for j in range(len(coords)):
-            dist = ((coords[i][0]-coords[j][0])**2 + (coords[i][1]-coords[j][1])**2)**(0.5)
-            row.append(dist)
-        matrix.append(row)
 
 def nearest_neighbor_heuristic(num_candidates):
     solution = []
@@ -133,7 +126,6 @@ def multi_start_local_search(objective_func, generate_neighbors):
     return [best_solution, best_fitness, evolution_history]
 
 # Values LS
-# filename="instanciasTSP/eil51.tsp"
 
 swap_range=60
 
@@ -145,17 +137,23 @@ pop_size = 100
 max_iterations = 20000
 max_time_multistart = 15
 
-# coordinates = []
-# util.read_tsp_file(filename, coordinates)
-# distance_matrix = []
-# create_distance_matrix(coordinates, distance_matrix)
+
+
 
 # # Load instance
 import json
+
+filename="data/tsplib/berlin52.tsp"
+
 with open("data/generated/berlin52_noise0.1_asym0.05.json") as f:
     instance = json.load(f)
 
 distance_matrix = instance["distance_matrix"]
+
+
+coordinates = []
+util.read_tsp_file(filename, coordinates)
+
 
 # # Parameters
 # swap_range = 20
@@ -173,4 +171,4 @@ end_time = time.time()
 print('Execution finished! Total execution time: %f seconds' % (end_time - start_time))
 print('Best solution and its fitness:')
 print('f(%s) = %f' % (best_solution, best_fitness_value))
-util.plot_results(evolution_data)
+util.plot_results(coordinates, best_solution,evolution_data)

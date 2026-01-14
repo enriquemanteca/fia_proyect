@@ -11,13 +11,6 @@ def calculate_total_distance(route):
     total_distance = total_distance + distance_matrix[route[len(route)-1]][route[0]]
     return total_distance
 
-def create_distance_matrix(coords, matrix):
-    for i in range(len(coords)):
-        row = []
-        for j in range(len(coords)):
-            dist = ((coords[i][0]-coords[j][0])**2 + (coords[i][1]-coords[j][1])**2)**(0.5)
-            row.append(dist)
-        matrix.append(row)
 
 def create_initial_population(pop_size, num_bits):
     population = []
@@ -161,14 +154,16 @@ def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, cross
 
 
 # Values GA
-# filename="instanciasTSP/eil51.tsp"
 import json
-with open("data/generated/berlin52_noise0.1_asym0.05.json") as f:
+
+filename="data/tsplib/kroA100.tsp"
+
+with open("data/generated/kroA100_noise0.0_asym0.0.json") as f:
     instance = json.load(f)
 
 distance_matrix = instance["distance_matrix"]
 
-use_nearest_neighbor = True
+use_nearest_neighbor = False
 num_nearest_neighbors_count = 5
 
 pop_size = 100
@@ -185,10 +180,9 @@ max_generations = 200000
 
 
 # Program
-# coordinates = []
-# util.read_tsp_file(filename, coordinates)
-# distance_matrix = []
-# create_distance_matrix(coordinates, distance_matrix)
+coordinates = []
+util.read_tsp_file(filename, coordinates)
+
 
 start_time = time.time()
 best_solution, best_fitness_value, evolution_data = genetic_algorithm(calculate_total_distance, len(distance_matrix), max_generations, pop_size, crossover_prob, mutation_prob)
@@ -197,4 +191,4 @@ end_time = time.time()
 print('Execution finished! Total execution time: %f seconds' % (end_time - start_time))
 print('Best solution and its fitness:')
 print('f(%s) = %f' % (best_solution, best_fitness_value))
-util.plot_results(evolution_data)
+util.plot_results(coordinates, best_solution,evolution_data)
