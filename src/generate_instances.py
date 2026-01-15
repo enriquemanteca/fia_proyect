@@ -41,7 +41,7 @@ def save_instance(instance, filename):
         json.dump(instance, f, indent=2)
 
 if __name__ == "__main__":
-    sizes = [20, 50, 100]
+    sizes = [1000]
     sigmas = [0.0, 0.1]
     deltas = [0.0, 0.05]
 
@@ -53,17 +53,17 @@ if __name__ == "__main__":
                 save_instance(instance, filename)
                 print(f"Generated {filename}")
 
-    tsplib_files = [
-        "data/tsplib/ulysses22.tsp",
-        "data/tsplib/berlin52.tsp",
-        "data/tsplib/kroA100.tsp"
-    ]
-
-    for path in tsplib_files:
-        base_name = path.split("/")[-1].replace(".tsp", "")
-        for s in sigmas:
-            for d in deltas:
-                inst = generate_instance_from_tsplib(path, s, d, seed=2026)
-                filename = f"data/generated/{base_name}_noise{s}_asym{d}.json"
-                save_instance(inst, filename)
-                print(f"Generated {filename}")
+    #tsplib_files = [
+    #    "data/tsplib/ulysses22.tsp",
+    #    "data/tsplib/berlin52.tsp",
+    #    "data/tsplib/kroA100.tsp"
+    #]
+#
+    #for path in tsplib_files:
+    #    base_name = path.split("/")[-1].replace(".tsp", "")
+    #    for s in sigmas:
+    #        for d in deltas:
+    #            inst = generate_instance_from_tsplib(path, s, d, seed=2026)
+    #            filename = f"data/generated/{base_name}_noise{s}_asym{d}.json"
+    #            save_instance(inst, filename)
+    #            print(f"Generated {filename}")

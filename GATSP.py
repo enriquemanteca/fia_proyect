@@ -156,14 +156,14 @@ def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, cross
 # Values GA
 import json
 
-filename="data/tsplib/kroA100.tsp"
+filename="data/tsplib/berlin52.tsp"
 
-with open("data/generated/kroA100_noise0.0_asym0.0.json") as f:
+with open("data/generated/berlin52_noise0.0_asym0.0.json") as f:
     instance = json.load(f)
 
 distance_matrix = instance["distance_matrix"]
 
-use_nearest_neighbor = False
+use_nearest_neighbor = True
 num_nearest_neighbors_count = 5
 
 pop_size = 100
@@ -172,7 +172,7 @@ crossover_prob = 0.8
 mutation_prob = 0.2
 elitism = True
 
-max_time = 30
+max_time = 60
 max_generations = 200000
 
 
@@ -188,7 +188,9 @@ start_time = time.time()
 best_solution, best_fitness_value, evolution_data = genetic_algorithm(calculate_total_distance, len(distance_matrix), max_generations, pop_size, crossover_prob, mutation_prob)
 end_time = time.time()
 
+
 print('Execution finished! Total execution time: %f seconds' % (end_time - start_time))
 print('Best solution and its fitness:')
 print('f(%s) = %f' % (best_solution, best_fitness_value))
 util.plot_results(coordinates, best_solution,evolution_data)
+
