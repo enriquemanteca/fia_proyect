@@ -32,16 +32,13 @@ def plot_results(coordinates, route, evolution=[]):
     
     plt.figure(figsize=(11, 5))
     
-    # --- Subplot 1: The Map (Route) ---
     plt.subplot(121)
     plt.plot(x, y, 'bo', markersize=4.0)
     
     a_scale = float(max(x)) / float(100)
     
-    # Draw arrow from last point to first point (close the loop)
     plt.arrow(x[-1], y[-1], (x[0] - x[-1]), (y[0] - y[-1]), head_width=a_scale, color='r', length_includes_head=True)
     
-    # Draw arrows between points
     for i in range(0, len(x) - 1):
         plt.arrow(x[i], y[i], (x[i+1] - x[i]), (y[i+1] - y[i]), head_width=a_scale, color='r', length_includes_head=True)
         
@@ -51,7 +48,6 @@ def plot_results(coordinates, route, evolution=[]):
     plt.ylabel("y")
     plt.title("Best Route Found")
     
-    # --- Subplot 2: Evolution (Fitness) ---
     plt.subplot(122)
     plt.plot(evolution)
     

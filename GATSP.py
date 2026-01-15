@@ -156,9 +156,9 @@ def genetic_algorithm(objective_func, num_bits, max_generations, pop_size, cross
 # Values GA
 import json
 
-filename="data/tsplib/berlin52.tsp"
+filename="data/tsplib/kroA100.tsp"
 
-with open("data/generated/berlin52_noise0.0_asym0.0.json") as f:
+with open("data/generated/kroA100_noise0.0_asym0.0.json") as f:
     instance = json.load(f)
 
 distance_matrix = instance["distance_matrix"]
